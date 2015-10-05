@@ -26,7 +26,7 @@ public class APClienteTest {
         ScriptRunner runner = new ScriptRunner(con, false, true);
         runner.runScript(new BufferedReader(new InputStreamReader(
                 getClass().getClassLoader().getResourceAsStream(Constants.DB_INIT_SCRIPT))));
-        con.close();
+        PoolConnection.getPoolConnection().realeaseConnection(con);
     }
 
     @After
@@ -44,13 +44,13 @@ public class APClienteTest {
         cliente.setMedioDePago(new Efectivo());
         cliente.guardar();
 
-        Cliente cliente1 = Cliente.search(cliente);
+        Cliente cliente1 = Cliente.buscar(cliente);
         assertNotNull(cliente1);
         assertTrue(cliente1.equals(cliente));
 
         cliente.setNombre("TestValue");
         cliente.guardar();
-        cliente1 = Cliente.search(cliente);
+        cliente1 = Cliente.buscar(cliente);
         assertNotNull(cliente1);
         assertTrue(cliente1.equals(cliente));
 
@@ -67,12 +67,12 @@ public class APClienteTest {
         cliente.setMedioDePago(tarjetaDeCredito);
 
         cliente.guardar();
-        cliente1 = Cliente.search(cliente);
+        cliente1 = Cliente.buscar(cliente);
         assertNotNull(cliente1);
         assertTrue(cliente1.equals(cliente));
 
         cliente.remove();
-        cliente1 = Cliente.search(cliente);
+        cliente1 = Cliente.buscar(cliente);
         assertNull(cliente1);
     }
 }

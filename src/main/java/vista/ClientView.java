@@ -12,13 +12,15 @@ import java.awt.event.ActionListener;
 public class ClientView extends JPanel implements ActionListener {
 
     JPanel right = new JPanel();
-    CardLayout cards = new CardLayout();
+    CardLayout rightCards = new CardLayout();
 
     final static String MENU_PANEL = "Menu";
     final static String EDIT_CLIENT_PANEL = "Edit Client";
 
     JPanel leftPanel = new JPanel();
-    JPanel leftCreatePanel = new JPanel();
+    JPanel clientView = new JPanel();
+    JPanel editClientView = new JPanel();
+    CardLayout leftCards = new CardLayout();
 
     JButton create = new JButton("Crear Cliente");
     private String CREATE_AC = "CREATE_AC";
@@ -41,8 +43,7 @@ public class ClientView extends JPanel implements ActionListener {
         GridBagConstraints gbc = new GridBagConstraints();
         Border border = BorderFactory.createEtchedBorder();
 
-        right = new JPanel();
-        right.setLayout(cards);
+        right.setLayout(rightCards);
         right.setBorder(BorderFactory.createTitledBorder(border, "Controles"));
         gbc.gridx = gbc.gridy = 0;
         gbc.gridwidth = gbc.gridheight = 1;
@@ -52,21 +53,30 @@ public class ClientView extends JPanel implements ActionListener {
 
         right.add(initRightPane(), MENU_PANEL);
         right.add(initEditClientControlPanel(), EDIT_CLIENT_PANEL);
-        cards.show(right, MENU_PANEL);
+        rightCards.show(right, MENU_PANEL);
 
         add(right, gbc);
 
-        leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS));
+        leftPanel.setLayout(leftCards);
         leftPanel.setAlignmentY(Component.TOP_ALIGNMENT);
         leftPanel.setBorder(BorderFactory.createTitledBorder(border, "Clientes"));
         gbc.gridx = 1;
         gbc.gridy = 0;
         gbc.weightx = gbc.weighty = 80;
-        JLabel filler = new JLabel("Hola");
-        filler.setAlignmentX(Component.CENTER_ALIGNMENT);
-        filler.setAlignmentY(Component.TOP_ALIGNMENT);
-        leftPanel.add(filler);
+
+        leftPanel.add(initClientViewPanel(clientView), MENU_PANEL);
+        leftCards.show(leftPanel, MENU_PANEL);
+
         add(leftPanel, gbc);
+    }
+
+    private JPanel initClientViewPanel(JPanel clientView) {
+        clientView.removeAll();
+        clientView.setLayout(new BorderLayout());
+
+
+
+        return clientView;
     }
 
     private JPanel initEditClientControlPanel() {
@@ -123,9 +133,10 @@ public class ClientView extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
         if(actionEvent.getActionCommand().equals(CREATE_AC)){
-            cards.show(right, EDIT_CLIENT_PANEL);
+
+            rightCards.show(right, EDIT_CLIENT_PANEL);
         }else if(actionEvent.getActionCommand().equals(CANCEL_AC)){
-            cards.show(right, MENU_PANEL);
+            rightCards.show(right, MENU_PANEL);
         }
     }
 }

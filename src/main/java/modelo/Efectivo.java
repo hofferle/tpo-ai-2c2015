@@ -8,6 +8,7 @@ public class Efectivo extends MedioDePago {
         return;
     }
 
+
     //~ Overrides --------------------------------------------------------------
     @Override
     public boolean equals(Object o) {

@@ -62,7 +62,8 @@ public class APCliente {
      */
     public static List<Cliente> searchAll(Cliente cliente, int max) {
         List<Cliente> result = new ArrayList<Cliente>();
-        String query = "SELECT TOP " + max + " * FROM DBAI.dbo.CLIENTE WHERE 1=1" +
+        String query = "SELECT "+ ((max > 0)?"TOP " + max:"") +
+                " * FROM DBAI.dbo.CLIENTE WHERE 1=1" +
                 ((cliente.getDni() != 0)?" AND DNI = ?":"")+
                 ((cliente.getNombre() != null)?" AND nombre = ?":"")+
                 ((cliente.getDomicilio() != null)?" AND domicilio = ?":"")+

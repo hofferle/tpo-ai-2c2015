@@ -25,14 +25,4 @@ public class MainView extends JPanel {
         add(tabbedPane);
 
     }
-
-    public static void main(String[] args) {
-        JFrame frame = new JFrame();
-        frame.getContentPane().add(new MainView());
-        frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        frame.pack();
-        frame.setVisible(true);
-    }
-
-
 }

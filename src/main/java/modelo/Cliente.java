@@ -42,13 +42,17 @@ public class Cliente {
         APCliente.remove(this);
     }
 
-    public static Cliente search(Cliente cliente){
+    public static Cliente buscar(Cliente cliente){
         List<Cliente> result = APCliente.searchAll(cliente, 1);
         if(result.size() > 0){
             return result.get(0);
         }else{
             return null;
         }
+    }
+
+    public static List<Cliente> buscarTodos(Cliente cliente){
+        return APCliente.searchAll(cliente, 0);
     }
 
     //~ Overrides --------------------------------------------------------------
