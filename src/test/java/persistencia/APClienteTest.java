@@ -2,7 +2,6 @@ package persistencia;
 
 import modelo.Cliente;
 import modelo.Efectivo;
-import modelo.MedioDePago;
 import modelo.TarjetaDeCredito;
 import org.junit.After;
 import org.junit.Before;
