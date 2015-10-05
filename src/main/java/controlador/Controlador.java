@@ -1,6 +1,7 @@
 package controlador;
 
 import modelo.Cliente;
+import persistencia.APCliente;
 import vista.MainView;
 
 import javax.swing.*;
@@ -53,4 +54,9 @@ public class Controlador {
         frame.setVisible(true);
     }
 
+    public Cliente buscarCliente(int dni) {
+        Cliente cliente = new Cliente();
+        cliente.setDni(dni);
+        return Cliente.buscar(cliente);
+    }
 }
