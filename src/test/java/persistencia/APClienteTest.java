@@ -58,7 +58,7 @@ public class APClienteTest {
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
         cal.set(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH),
-                cal.get(Calendar.DAY_OF_MONTH),0,0,0);
+                cal.get(Calendar.DAY_OF_MONTH), 0, 0, 0);
 
         TarjetaDeCredito tarjetaDeCredito = new TarjetaDeCredito();
         tarjetaDeCredito.setFechaVencimiento(cal.getTime());
@@ -71,5 +71,8 @@ public class APClienteTest {
         assertNotNull(cliente1);
         assertTrue(cliente1.equals(cliente));
 
+        cliente.remove();
+        cliente1 = Cliente.search(cliente);
+        assertNull(cliente1);
     }
 }

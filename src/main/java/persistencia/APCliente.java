@@ -196,4 +196,27 @@ public class APCliente {
             e.printStackTrace();
         }
     }
+
+    public static void remove(Cliente cliente){
+        Connection con = PoolConnection.getPoolConnection().getConnection();
+        try
+        {
+            String query = "DELETE FROM DBAI.dbo.CLIENTE WHERE DNI = ?;";
+            PreparedStatement ps;
+            ps = con.prepareStatement(query);
+            ps.setInt(1, cliente.getDni());
+            ps.execute();
+
+        }
+        catch( SQLException e )
+        {
+            System.out.println("Mensaje Error al Borrar Producto: " + e.getMessage());
+            System.out.println("Stack Trace al Borrar Producto: " + e.getStackTrace());
+        }
+        try{
+            PoolConnection.getPoolConnection().realeaseConnection(con);
+        }catch (Exception e){
+            System.out.println("Error al cerrar el pool de conecciones: " + e.getMessage());
+        }
+    }
 }

@@ -27,8 +27,6 @@ public class TarjetaDeCredito extends MedioDePago {
         TarjetaDeCredito that = (TarjetaDeCredito) o;
 
         if (entidad != null ? !entidad.equals(that.entidad) : that.entidad != null) return false;
-        if (fechaVencimiento != null ? fechaVencimiento.getTime() != that.fechaVencimiento.getTime() : that.fechaVencimiento != null)
-            return false;
         if (numero != null ? !numero.equals(that.numero) : that.numero != null) return false;
 
         return true;

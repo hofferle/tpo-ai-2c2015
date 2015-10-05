@@ -75,4 +75,5 @@ references DBAI.dbo.CLIENTE;
 Alter Table DBAI.dbo.CLIENTE
 add constraint MEDIOPAGO_medioPagoId_fk
 foreign key (medioPagoId)
-references DBAI.dbo.MEDIOPAGO;
+references DBAI.dbo.MEDIOPAGO
+ON DELETE CASCADE;

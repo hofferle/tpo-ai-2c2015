@@ -38,6 +38,10 @@ public class Cliente {
         }
     }
 
+    public void remove(){
+        APCliente.remove(this);
+    }
+
     public static Cliente search(Cliente cliente){
         List<Cliente> result = APCliente.searchAll(cliente, 1);
         if(result.size() > 0){
