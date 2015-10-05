@@ -1,5 +1,8 @@
 package vista;
 
+import controlador.Controlador;
+import vista.table.UnmodifiableTableModel;
+
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
@@ -11,26 +14,29 @@ import java.awt.event.ActionListener;
  */
 public class ClientView extends JPanel implements ActionListener {
 
-    JPanel right = new JPanel();
-    CardLayout rightCards = new CardLayout();
+    private JPanel right = new JPanel();
+    private CardLayout rightCards = new CardLayout();
 
     final static String MENU_PANEL = "Menu";
     final static String EDIT_CLIENT_PANEL = "Edit Client";
 
-    JPanel leftPanel = new JPanel();
-    JPanel clientView = new JPanel();
-    JPanel editClientView = new JPanel();
-    CardLayout leftCards = new CardLayout();
+    private JPanel leftPanel = new JPanel();
+    private JPanel clientView = new JPanel();
+    private String[] clientColuntNames = {"DNI", "Nombre", "Medio De Pago"};
 
-    JButton create = new JButton("Crear Cliente");
+
+    private JPanel editClientView = new JPanel();
+    private CardLayout leftCards = new CardLayout();
+
+    private JButton create = new JButton("Crear Cliente");
     private String CREATE_AC = "CREATE_AC";
-    JButton edit = new JButton("Editar Cliente");
+    private JButton edit = new JButton("Editar Cliente");
     private String EDIT_AC = "EDIT_AC";
-    JButton delete = new JButton("Eliminar Cliente");
+    private JButton delete = new JButton("Eliminar Cliente");
     private String DELETE_AC = "DELETE_AC";
-    JButton save = new JButton("Guardar");
+    private JButton save = new JButton("Guardar");
     private String SAVE_AC = "SAVE_AC";
-    JButton cancel = new JButton("Cancelar");
+    private JButton cancel = new JButton("Cancelar");
     private String CANCEL_AC = "CANCEL_AC";
 
     public ClientView() {
@@ -74,6 +80,10 @@ public class ClientView extends JPanel implements ActionListener {
         clientView.removeAll();
         clientView.setLayout(new BorderLayout());
 
+        String[][] clientes = Controlador.getInstance().obtenerTablaDeClientes();
+        JTable tablaClientes = new JTable(new UnmodifiableTableModel(clientes, clientColuntNames));
+        //tablaClientes.addlistener
+        clientView.add(tablaClientes);
 
 
         return clientView;
@@ -132,10 +142,10 @@ public class ClientView extends JPanel implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
-        if(actionEvent.getActionCommand().equals(CREATE_AC)){
+        if (actionEvent.getActionCommand().equals(CREATE_AC)) {
 
             rightCards.show(right, EDIT_CLIENT_PANEL);
-        }else if(actionEvent.getActionCommand().equals(CANCEL_AC)){
+        } else if (actionEvent.getActionCommand().equals(CANCEL_AC)) {
             rightCards.show(right, MENU_PANEL);
         }
     }
