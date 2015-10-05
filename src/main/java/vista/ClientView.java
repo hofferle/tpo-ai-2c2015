@@ -1,5 +1,6 @@
 package vista;
 
+import com.sun.org.apache.bcel.internal.generic.Select;
 import controlador.Controlador;
 import modelo.Cliente;
 import vista.table.UnmodifiableTableModel;
@@ -11,11 +12,13 @@ import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 
 /**
  * Created by mpliego on 10/5/15.
  */
-public class ClientView extends JPanel implements ActionListener, ListSelectionListener {
+public class ClientView extends JPanel implements ActionListener, ListSelectionListener, ItemListener {
 
     private JPanel right = new JPanel();
     private CardLayout rightCards = new CardLayout();
@@ -42,6 +45,17 @@ public class ClientView extends JPanel implements ActionListener, ListSelectionL
     private JTextField domicilioField;
     private JTextField telefonoField;
     private JTextField mailField;
+    private JTextField entidadField;
+    private JTextField numeroField;
+    private JTextField fechaField;
+    private JComboBox medioPagoComboBox;
+    final static String MEDIO_PAGO_EFECTIVO = "Efectivo";
+    final static String MEDIO_PAGO_TC = "TarjetaDeCredito";
+    final static String MEDIO_PAGO_CBU = "CBU";
+    private String medioDePagoCBItems[] = {
+            MEDIO_PAGO_EFECTIVO,
+            MEDIO_PAGO_CBU,
+            MEDIO_PAGO_TC};
 
     private JButton create = new JButton("Crear Cliente");
     private String CREATE_AC = "CREATE_AC";
@@ -186,6 +200,93 @@ public class ClientView extends JPanel implements ActionListener, ListSelectionL
         }
         editClienteView.add(mailField, gbc);
 
+        JLabel modoLabel = new JLabel("Modo de Pago: ", JLabel.TRAILING);
+        gbc.gridx = 0;
+        gbc.gridy = 5;
+        gbc.weightx = 30;
+        editClienteView.add(modoLabel, gbc);
+
+        medioPagoComboBox = new JComboBox(medioDePagoCBItems);
+        int index = -1;
+        if(cliente != null){
+            switch (cliente.length - 6){
+                case 0:
+                    index = 0;
+                    break;
+                case 2:
+                    index = 1;
+                    break;
+                case 4:
+                    index = 2;
+                    break;
+                default:
+                    index = -1;
+            }
+        }
+        medioPagoComboBox.setSelectedIndex(index);
+        medioPagoComboBox.setEditable(false);
+        medioPagoComboBox.addItemListener(this);
+        gbc.gridx = 1;
+        gbc.gridy = 5;
+        gbc.weightx = 70;
+        editClienteView.add(medioPagoComboBox, gbc);
+
+        JLabel entidadLabel = new JLabel("Entidad: ", JLabel.TRAILING);
+        gbc.gridx = 0;
+        gbc.gridy = 6;
+        gbc.weightx = 30;
+        editClienteView.add(entidadLabel, gbc);
+
+        entidadField = new JTextField(10);
+        gbc.gridx = 1;
+        gbc.gridy = 6;
+        gbc.weightx = 70;
+        if(cliente != null && cliente.length > 6){
+            entidadField.setEnabled(true);
+            entidadField.setText(cliente[6]);
+        }else {
+            entidadField.setEnabled(false);
+        }
+        editClienteView.add(entidadField, gbc);
+
+        JLabel numeroLabel = new JLabel("Numero: ", JLabel.TRAILING);
+        gbc.gridx = 0;
+        gbc.gridy = 7;
+        gbc.weightx = 30;
+        editClienteView.add(numeroLabel, gbc);
+
+        numeroField = new JTextField(10);
+        gbc.gridx = 1;
+        gbc.gridy = 7;
+        gbc.weightx = 70;
+        if(cliente != null && cliente.length > 6){
+            numeroField.setEnabled(true);
+            numeroField.setText(cliente[7]);
+        }else {
+            numeroField.setEnabled(false);
+        }
+        editClienteView.add(numeroField, gbc);
+
+        JLabel fechaLabel = new JLabel("Fecha: ", JLabel.TRAILING);
+        gbc.gridx = 0;
+        gbc.gridy = 8;
+        gbc.weightx = 30;
+        editClienteView.add(fechaLabel, gbc);
+
+        fechaField = new JTextField(10);
+        gbc.gridx = 1;
+        gbc.gridy = 8;
+        gbc.weightx = 70;
+        if(cliente != null && cliente.length > 8){
+            fechaField.setEnabled(true);
+            fechaField.setText(cliente[8]);
+        }else{
+            fechaField.setEnabled(false);
+        }
+        editClienteView.add(fechaField, gbc);
+        this.repaint();
+        this.revalidate();
+
         return editClienteView;
     }
 
@@ -277,6 +378,26 @@ public class ClientView extends JPanel implements ActionListener, ListSelectionL
         if(tablaClientes.getSelectedRow() != -1){
             edit.setEnabled(true);
             delete.setEnabled(true);
+        }
+    }
+
+    @Override
+    public void itemStateChanged(ItemEvent itemEvent) {
+        switch (medioPagoComboBox.getSelectedIndex()){
+            case 1:
+                entidadField.setEnabled(true);
+                numeroField.setEnabled(true);
+                fechaField.setEnabled(false);
+                break;
+            case 2:
+                entidadField.setEnabled(true);
+                numeroField.setEnabled(true);
+                fechaField.setEnabled(true);
+                break;
+            default:
+                entidadField.setEnabled(false);
+                numeroField.setEnabled(false);
+                fechaField.setEnabled(false);
         }
     }
 }
