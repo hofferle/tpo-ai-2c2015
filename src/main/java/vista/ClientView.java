@@ -2,7 +2,10 @@ package vista;
 
 import com.sun.org.apache.bcel.internal.generic.Select;
 import controlador.Controlador;
+import modelo.CBU;
 import modelo.Cliente;
+import modelo.MedioDePago;
+import modelo.TarjetaDeCredito;
 import vista.table.UnmodifiableTableModel;
 
 import javax.swing.*;
@@ -14,6 +17,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 /**
  * Created by mpliego on 10/5/15.
@@ -216,7 +221,7 @@ public class ClientView extends JPanel implements ActionListener, ListSelectionL
                 case 2:
                     index = 1;
                     break;
-                case 4:
+                case 3:
                     index = 2;
                     break;
                 default:
@@ -351,6 +356,52 @@ public class ClientView extends JPanel implements ActionListener, ListSelectionL
             leftPanel.add(EDIT_CLIENT_PANEL, editClientView);
             leftCards.show(leftPanel, EDIT_CLIENT_PANEL);
             rightCards.show(right, EDIT_CLIENT_MENU_PANEL);
+        }else if (actionEvent.getActionCommand().equals(DELETE_AC)) {
+            if(tablaClientes.getSelectedRow() != -1){
+                Controlador.getInstance().eliminarCliente(Integer.parseInt(
+                        clientTableElements[tablaClientes.getSelectedRow()][0]));
+                leftPanel.remove(clientView);
+                clientView = new JPanel();
+                leftPanel.add(initClientViewPanel(clientView), LIST_CLIENTS_PANEL);
+            }
+        }else if (actionEvent.getActionCommand().equals(SAVE_AC)) {
+            Cliente cliente = new Cliente();
+            cliente.setDni(Integer.parseInt(dniTextField.getText()));
+            cliente.setNombre(nombreTextField.getText());
+            cliente.setDomicilio(domicilioField.getText());
+            cliente.setTelefono(Integer.parseInt(telefonoField.getText()));
+            cliente.setMail(mailField.getText());
+
+            MedioDePago medioDePago = null;
+            switch (medioPagoComboBox.getSelectedIndex()){
+                case 1:
+                    CBU cbu = new CBU();
+                    cbu.setEntidad(entidadField.getText());
+                    cbu.setNumero(numeroField.getText());
+                    medioDePago = cbu;
+                    break;
+                case 2:
+                    TarjetaDeCredito tarjetaDeCredito = new TarjetaDeCredito();
+                    tarjetaDeCredito.setEntidad(entidadField.getText());
+                    tarjetaDeCredito.setNumero(numeroField.getText());
+                    SimpleDateFormat parser = new SimpleDateFormat("dd-MM-yyyy");
+                    try {
+                        tarjetaDeCredito.setFechaVencimiento(parser.parse(fechaField.getText()));
+                    } catch (ParseException e) {}
+                    medioDePago = tarjetaDeCredito;
+                    break;
+            }
+            cliente.setMedioDePago(medioDePago);
+            Controlador.getInstance().guardarCliente(cliente);
+
+            leftPanel.remove(clientView);
+            clientView = new JPanel();
+            leftPanel.add(initClientViewPanel(clientView), LIST_CLIENTS_PANEL);
+            edit.setEnabled(false);
+            delete.setEnabled(false);
+            tablaClientes.clearSelection();
+            rightCards.show(right, MENU_PANEL);
+            leftCards.show(leftPanel, LIST_CLIENTS_PANEL);
         }else if (actionEvent.getActionCommand().equals(EDIT_AC)) {
             if(tablaClientes.getSelectedRow() != -1){
 

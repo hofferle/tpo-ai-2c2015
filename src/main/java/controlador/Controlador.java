@@ -1,7 +1,6 @@
 package controlador;
 
 import modelo.Cliente;
-import persistencia.APCliente;
 import vista.MainView;
 
 import javax.swing.*;
@@ -18,26 +17,26 @@ public class Controlador {
     }
 
     public static Controlador getInstance() {
-        if(instance == null){
+        if (instance == null) {
             instance = new Controlador();
         }
         return instance;
     }
 
-    public String[][] obtenerTablaDeClientes(){
+    public String[][] obtenerTablaDeClientes() {
         String[][] result;
         List<Cliente> clienteList = Cliente.buscarTodos(new Cliente());
-        if(clienteList.size() > 0){
+        if (clienteList.size() > 0) {
             result = new String[clienteList.size()][3];
             int index = 0;
-            for(Cliente cliente : clienteList){
+            for (Cliente cliente : clienteList) {
                 result[index] = new String[]{
                         Integer.toString(cliente.getDni()),
-                        (cliente.getNombre() != null)?cliente.getNombre():"",
-                        (cliente.getMedioDePago() != null)?cliente.getMedioDePago().getNombre():""};
+                        (cliente.getNombre() != null) ? cliente.getNombre() : "",
+                        (cliente.getMedioDePago() != null) ? cliente.getMedioDePago().getNombre() : ""};
                 index += 1;
             }
-        }else{
+        } else {
             result = new String[0][0];
         }
 
@@ -58,5 +57,16 @@ public class Controlador {
         cliente.setDni(dni);
         cliente = Cliente.buscar(cliente);
         return cliente.toStringArray();
+    }
+
+    public void guardarCliente(Cliente cliente) {
+        cliente.guardar();
+    }
+
+    public void eliminarCliente(int dniCliente) {
+        Cliente cliente = new Cliente();
+        cliente.setDni(dniCliente);
+        cliente = Cliente.buscar(cliente);
+        cliente.remove();
     }
 }
