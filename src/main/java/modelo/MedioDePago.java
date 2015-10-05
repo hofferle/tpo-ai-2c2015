@@ -7,4 +7,6 @@ public abstract class MedioDePago {
     public String getNombre() {
         return getClass().getSimpleName();
     }
+
+    public abstract String[] toStringArray();
 }

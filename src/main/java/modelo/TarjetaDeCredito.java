@@ -2,6 +2,7 @@ package modelo;
 
 import persistencia.APMedioDePago;
 
+import java.util.Calendar;
 import java.util.Date;
 
 
@@ -15,6 +16,26 @@ public class TarjetaDeCredito extends MedioDePago {
     @Override
     public void guardar(Cliente cliente) {
         APMedioDePago.create(this, cliente);
+    }
+
+    @Override
+    public String[] toStringArray() {
+
+        String date = "";
+        if(fechaVencimiento != null){
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(fechaVencimiento);
+            int year = cal.get(Calendar.YEAR);
+            int month = cal.get(Calendar.MONTH);
+            int day = cal.get(Calendar.DAY_OF_MONTH);
+            date = day + "-" + month + "-"+ year;
+        }
+
+        return new String[]{
+                getClass().getSimpleName(),
+                getEntidad(),
+                getNumero(),
+                date};
     }
 
     //~ Overrides --------------------------------------------------------------

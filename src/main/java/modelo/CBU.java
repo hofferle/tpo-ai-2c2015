@@ -17,6 +17,14 @@ public class CBU extends MedioDePago{
         APMedioDePago.create(this, cliente);
     }
 
+    @Override
+    public String[] toStringArray() {
+        return new String[]{
+                getClass().getSimpleName(),
+                getEntidad(),
+                getNumero()};
+    }
+
     //~ MedioDePago Overrides --------------------------------------------------
 
     @Override

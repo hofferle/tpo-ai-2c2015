@@ -102,7 +102,7 @@ public class ClientView extends JPanel implements ActionListener, ListSelectionL
         return clientView;
     }
 
-    private JPanel initEditClientPanel(Cliente cliente){
+    private JPanel initEditClientPanel(String[] cliente){
         JPanel editClienteView = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = gbc.gridy = 0;
@@ -121,7 +121,7 @@ public class ClientView extends JPanel implements ActionListener, ListSelectionL
         gbc.gridy = 0;
         gbc.weightx = 70;
         if(cliente != null){
-            dniTextField.setText(Integer.toString(cliente.getDni()));
+            dniTextField.setText(cliente[0]);
             dniTextField.setEnabled(false);
         }
         editClienteView.add(dniTextField, gbc);
@@ -137,7 +137,7 @@ public class ClientView extends JPanel implements ActionListener, ListSelectionL
         gbc.gridy = 1;
         gbc.weightx = 70;
         if(cliente != null){
-            nombreTextField.setText(cliente.getNombre());
+            nombreTextField.setText(cliente[1]);
         }
         editClienteView.add(nombreTextField, gbc);
 
@@ -152,7 +152,7 @@ public class ClientView extends JPanel implements ActionListener, ListSelectionL
         gbc.gridy = 2;
         gbc.weightx = 70;
         if(cliente != null){
-            domicilioField.setText(cliente.getDomicilio());
+            domicilioField.setText(cliente[2]);
         }
         editClienteView.add(domicilioField, gbc);
 
@@ -167,7 +167,7 @@ public class ClientView extends JPanel implements ActionListener, ListSelectionL
         gbc.gridy = 3;
         gbc.weightx = 70;
         if(cliente != null){
-            telefonoField.setText(Integer.toString(cliente.getTelefono()));
+            telefonoField.setText(cliente[3]);
         }
         editClienteView.add(telefonoField, gbc);
 
@@ -182,7 +182,7 @@ public class ClientView extends JPanel implements ActionListener, ListSelectionL
         gbc.gridy = 4;
         gbc.weightx = 70;
         if(cliente != null){
-            mailField.setText(cliente.getMail());
+            mailField.setText(cliente[4]);
         }
         editClienteView.add(mailField, gbc);
 
@@ -253,7 +253,7 @@ public class ClientView extends JPanel implements ActionListener, ListSelectionL
         }else if (actionEvent.getActionCommand().equals(EDIT_AC)) {
             if(tablaClientes.getSelectedRow() != -1){
 
-                Cliente cliente = Controlador.getInstance().buscarCliente(Integer.parseInt(
+                String[] cliente = Controlador.getInstance().buscarCliente(Integer.parseInt(
                         clientTableElements[tablaClientes.getSelectedRow()][0]));
                 leftPanel.remove(editClientView);
                 editClientView = initEditClientPanel(cliente);

@@ -29,6 +29,28 @@ public class Cliente {
 	public void verificarEstadoCtaCte(){
 		
 	}
+
+    public String[] toStringArray(){
+        int elements = 5;
+        String[] medioDePagoArray = null;
+        if(medioDePago != null){
+            medioDePagoArray = medioDePago.toStringArray();
+            elements += medioDePagoArray.length;
+        }
+        String[] result = new String[elements];
+        result[0] = Integer.toString(getDni());
+        result[1] = getNombre();
+        result[2] = getDomicilio();
+        result[3] = Integer.toString(getTelefono());
+        result[4] = getMail();
+        if(medioDePago != null){
+            for(int i = 5; i < elements; i++){
+                result[i] = medioDePagoArray[i-5];
+            }
+        }
+        return result;
+    }
+
     //~ DB Methods -------------------------------------------------------------
     public void guardar(){
         if(!APCliente.exists(this)){

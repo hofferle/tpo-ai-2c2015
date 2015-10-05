@@ -45,7 +45,6 @@ public class Controlador {
     }
 
 
-
     public static void main(String[] args) {
         JFrame frame = new JFrame();
         frame.getContentPane().add(new MainView());
@@ -54,9 +53,10 @@ public class Controlador {
         frame.setVisible(true);
     }
 
-    public Cliente buscarCliente(int dni) {
+    public String[] buscarCliente(int dni) {
         Cliente cliente = new Cliente();
         cliente.setDni(dni);
-        return Cliente.buscar(cliente);
+        cliente = Cliente.buscar(cliente);
+        return cliente.toStringArray();
     }
 }

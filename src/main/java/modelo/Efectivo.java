@@ -8,6 +8,13 @@ public class Efectivo extends MedioDePago {
         return;
     }
 
+    @Override
+    public String[] toStringArray() {
+        return new String[]{
+                getClass().getSimpleName()
+        };
+    }
+
 
     //~ Overrides --------------------------------------------------------------
     @Override
