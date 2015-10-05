@@ -2,34 +2,32 @@ package modelo;
 
 import persistencia.APMedioDePago;
 
-import java.util.Date;
-
-
-public class TarjetaDeCredito extends MedioDePago {
-	private String entidad;
-	private String numero;
-	private Date fechaVencimiento;
+/**
+ * Created by mpliego on 10/4/15.
+ */
+public class CBU extends MedioDePago{
+    private String entidad;
+    private String numero;
 
 
     //~ MedioDePago Overrides --------------------------------------------------
+
     @Override
     public void guardar(Cliente cliente) {
         APMedioDePago.create(this, cliente);
     }
 
-    //~ Overrides --------------------------------------------------------------
+    //~ MedioDePago Overrides --------------------------------------------------
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        TarjetaDeCredito that = (TarjetaDeCredito) o;
+        CBU cbu = (CBU) o;
 
-        if (entidad != null ? !entidad.equals(that.entidad) : that.entidad != null) return false;
-        if (fechaVencimiento != null ? fechaVencimiento.getTime() != that.fechaVencimiento.getTime() : that.fechaVencimiento != null)
-            return false;
-        if (numero != null ? !numero.equals(that.numero) : that.numero != null) return false;
+        if (entidad != null ? !entidad.equals(cbu.entidad) : cbu.entidad != null) return false;
+        if (numero != null ? !numero.equals(cbu.numero) : cbu.numero != null) return false;
 
         return true;
     }
@@ -38,7 +36,6 @@ public class TarjetaDeCredito extends MedioDePago {
     public int hashCode() {
         int result = entidad != null ? entidad.hashCode() : 0;
         result = 31 * result + (numero != null ? numero.hashCode() : 0);
-        result = 31 * result + (fechaVencimiento != null ? fechaVencimiento.hashCode() : 0);
         return result;
     }
 
@@ -59,13 +56,5 @@ public class TarjetaDeCredito extends MedioDePago {
 
     public void setNumero(String numero) {
         this.numero = numero;
-    }
-
-    public Date getFechaVencimiento() {
-        return fechaVencimiento;
-    }
-
-    public void setFechaVencimiento(Date fechaVencimiento) {
-        this.fechaVencimiento = fechaVencimiento;
     }
 }

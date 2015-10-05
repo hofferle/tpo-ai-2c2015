@@ -1,6 +1,7 @@
 package persistencia;
 
 import java.io.FileInputStream;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -56,16 +57,16 @@ public class PoolConnection
 	}
 	public void getConfiguration()
 	{
-		String configuracion = "ConfigBD.txt";
+		String configuracion = "config.properties";
 	    Properties propiedades;
 	 
 	    // Carga del fichero de propiedades 
 	    try 
 	    {
-	       FileInputStream f = new FileInputStream(configuracion);	 
-	       propiedades = new Properties();
-	       propiedades.load(f);
-	       f.close();
+            InputStream f = getClass().getClassLoader().getResourceAsStream(configuracion);
+            propiedades = new Properties();
+            propiedades.load(f);
+            f.close();
 	 
        // Leo los valores de configuracion
 	       jdbc = propiedades.getProperty("jdbc"); 

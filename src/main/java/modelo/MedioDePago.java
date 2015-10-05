@@ -1,5 +1,6 @@
 package modelo;
 
-public class MedioDePago {
-	
+public abstract class MedioDePago {
+
+    public abstract void guardar(Cliente cliente);
 }
